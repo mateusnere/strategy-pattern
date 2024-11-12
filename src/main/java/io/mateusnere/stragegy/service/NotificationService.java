@@ -1,26 +1,26 @@
 package io.mateusnere.stragegy.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
-import io.mateusnere.stragegy.controller.NotificationController;
 import io.mateusnere.stragegy.entity.Notification;
+import io.mateusnere.stragegy.service.strategy.InstagramNotificationStrategy;
+import io.mateusnere.stragegy.service.strategy.TiktokNotificationStrategy;
+import io.mateusnere.stragegy.service.strategy.TwitterNotificationStrategy;
+import io.mateusnere.stragegy.service.strategy.WhatsappNotificationStrategy;
 
 @Service
 public class NotificationService {
 
-    Logger logger = LoggerFactory.getLogger(NotificationController.class);
+    Map<String, NotificationStrategy> mapOfNotifications = Map.of(
+        "instagram", new InstagramNotificationStrategy(),
+        "tiktok", new TiktokNotificationStrategy(),
+        "twitter", new TwitterNotificationStrategy(),
+        "whatsapp", new WhatsappNotificationStrategy()
+    );
     
     public void notify(Notification notification) {
-        if(notification.channel().equals("instagram")) {
-            logger.info("Instagram (@{}): {}", notification.destiny(), notification.message());
-        } else if(notification.channel().equals("tiktok")) {
-            logger.info("TikTok (@{}): {}", notification.destiny(), notification.message());
-        } else if(notification.channel().equals("twitter")) {
-            logger.info("X/Twitter (@{}): {}", notification.destiny(), notification.message());
-        } else if(notification.channel().equals("whatsapp")) {
-            logger.info("Whatsapp [{}]: {}", notification.destiny(), notification.message());
-        }
+        mapOfNotifications.get(notification.channel()).sendNotification(notification.destination(), notification.message());
     }
 }
