@@ -9,6 +9,7 @@ import io.mateusnere.stragegy.service.strategy.InstagramNotificationStrategy;
 import io.mateusnere.stragegy.service.strategy.TiktokNotificationStrategy;
 import io.mateusnere.stragegy.service.strategy.TwitterNotificationStrategy;
 import io.mateusnere.stragegy.service.strategy.WhatsappNotificationStrategy;
+import io.mateusnere.stragegy.service.strategy.YoutubeNotificationStrategy;
 
 @Service
 public class NotificationService {
@@ -17,7 +18,8 @@ public class NotificationService {
         "instagram", new InstagramNotificationStrategy(),
         "tiktok", new TiktokNotificationStrategy(),
         "twitter", new TwitterNotificationStrategy(),
-        "whatsapp", new WhatsappNotificationStrategy()
+        "whatsapp", new WhatsappNotificationStrategy(),
+        "youtube", new YoutubeNotificationStrategy()
     );
     
     public void notify(Notification notification) {
